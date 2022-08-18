@@ -1,10 +1,22 @@
 # --- closedloop signals ---
+loadrt offset count=2
+
+
+addf offset.0.update-output   servo-thread
+addf offset.0.update-feedback servo-thread
+setp offset.0.offset -90
+addf offset.1.update-output   servo-thread
+addf offset.1.update-feedback servo-thread
+setp offset.1.offset 180
+
 net a1-pos-cmd      joint.0.motor-pos-cmd  => joint.0.motor-pos-fb
-net a2-pos-cmd      joint.1.motor-pos-cmd  => joint.1.motor-pos-fb
+net a2-pos-cmd      joint.1.motor-pos-cmd  => offset.0.in
+net a2-pos-off      offset.0.fb-out  =>  joint.1.motor-pos-fb
 net a3-pos-cmd      joint.2.motor-pos-cmd  => joint.2.motor-pos-fb
 net a4-pos-cmd      joint.3.motor-pos-cmd  => joint.3.motor-pos-fb
 net a5-pos-cmd      joint.4.motor-pos-cmd  => joint.4.motor-pos-fb
-net a6-pos-cmd      joint.5.motor-pos-cmd  => joint.5.motor-pos-fb
+net a6-pos-cmd      joint.5.motor-pos-cmd  => offset.1.in
+net a6-pos-off      offset.1.fb-out  =>  joint.5.motor-pos-fb
 
 
 
